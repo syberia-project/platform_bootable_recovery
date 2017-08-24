@@ -639,8 +639,7 @@ Value* FormatFn(const char* name, State* state, const std::vector<std::unique_pt
 //   Example: rename("system/app/Hangouts/Hangouts.apk", "system/priv-app/Hangouts/Hangouts.apk")
 Value* RenameFn(const char* name, State* state, const std::vector<std::unique_ptr<Expr>>& argv) {
   if (argv.size() != 2) {
-    return ErrorAbort(state, kArgsParsingFailure, "%s() expects 2 args, got %zu", name,
-                      argv.size());
+    return ErrorAbort(state, kArgsParsingFailure, "%s() expects 2 args, got %d", name, (int)argv.size());
   }
 
   std::vector<std::string> args;
@@ -754,8 +753,8 @@ Value* SetProgressFn(const char* name, State* state,
 //   Creates all sources as symlinks to target. It unlinks any previously existing src1, src2, etc
 //   before creating symlinks.
 Value* SymlinkFn(const char* name, State* state, const std::vector<std::unique_ptr<Expr>>& argv) {
-  if (argv.size() == 0) {
-    return ErrorAbort(state, kArgsParsingFailure, "%s() expects 1+ args, got %zu", name, argv.size());
+  if (argv.empty()) {
+    return ErrorAbort(state, kArgsParsingFailure, "%s() expects 1+ args, got %d", name, (int)argv.size());
   }
   std::string target;
   if (!Evaluate(state, argv[0], &target)) {
@@ -996,8 +995,8 @@ static int do_SetMetadataRecursive(const char* filename, const struct stat* stat
 
 static Value* SetMetadataFn(const char* name, State* state, const std::vector<std::unique_ptr<Expr>>& argv) {
   if ((argv.size() % 2) != 1) {
-    return ErrorAbort(state, kArgsParsingFailure, "%s() expects an odd number of arguments, got %zu",
-                      name, argv.size());
+    return ErrorAbort(state, kArgsParsingFailure, "%s() expects an odd number of arguments, got %d",
+                      name, (int)argv.size());
   }
 
   std::vector<std::string> args;
